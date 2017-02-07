@@ -1,0 +1,21 @@
+{
+  "project": "project-name",
+  "name": "your-name",
+  "box":{
+    "name": "vsphere.box"
+  },
+  "vsphere": {
+    "vcenter": "192.168.1.50",
+    "data_center":"data",
+    "host": "192.168.1.10",
+    "template": "ubuntu-16-box",
+    "resource_pool": "box",
+    "storage": "/datastore2_st_1000",
+    "user": "vcenter-user",
+    "passwd": "vcenter-user-passwd"
+  },
+  "vm": {
+    "cpu_count": 2,
+    "memory": 4096
+  }
+}

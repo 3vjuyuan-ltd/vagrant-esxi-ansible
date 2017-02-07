@@ -1,0 +1,4 @@
+config.box.json
+.vagrant
+temp/
+.idea/

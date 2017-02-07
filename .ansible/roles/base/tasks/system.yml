@@ -1,0 +1,11 @@
+---
+- name: Run the "apt-get update" as a separate step
+  apt:
+    update_cache: yes
+    
+- name: Make directory in /tmp for temporary uploads files
+  file:
+    path: /tmp/packages
+    state: directory
+    mode: 0755
+  
