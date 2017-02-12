@@ -1,11 +1,14 @@
 ---
+# @todo If we need to remove the lock
+#    sudo rm /var/cache/apt/archives/lock
+#    sudo rm /var/lib/dpkg/lock
 - name: Run the "apt-get update" as a separate step
   apt:
     update_cache: yes
     
 - name: Make directory in /tmp for temporary uploads files
   file:
-    path: /tmp/packages
+    path: "{{system.package_path}}"
     state: directory
     mode: 0755
   

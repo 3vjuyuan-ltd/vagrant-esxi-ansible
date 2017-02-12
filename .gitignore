@@ -2,3 +2,4 @@ config.box.json
 .vagrant
 temp/
 .idea/
+playbook.retry

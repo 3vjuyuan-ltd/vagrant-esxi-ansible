@@ -1,7 +1,0 @@
----
-- name: Set up the development system by vagrant ansible provision
-  hosts: all
-  become: yes
-  roles:
-    - base
-    - development

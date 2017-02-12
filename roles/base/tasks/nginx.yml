@@ -8,14 +8,14 @@
 - name: Copy nginx deb package the the client
   copy:
     src: roles/base/files/{{nginx.deb_filename}}.deb
-    dest: /tmp/packages
+    dest: "{{system.package_path}}"
     owner: vagrant
     group: vagrant
     mode: 0755
   when: nginx_deb_state.rc == 1
 
 - name: Install nginx package with dpkg
-  apt: deb="/tmp/packages/{{nginx.deb_filename}}.deb"
+  apt: deb="{{system.package_path}}/{{nginx.deb_filename}}.deb"
   when: nginx_deb_state.rc == 1
   
 - name: Ensure nginx service is started
