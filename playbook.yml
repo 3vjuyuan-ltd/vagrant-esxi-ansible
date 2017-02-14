@@ -1,0 +1,24 @@
+---
+- name: Set up the development system by vagrant ansible provision
+  hosts: all
+  roles:
+    - base
+#    - development
+
+#- name: Set up the CI/demo system
+#  hosts: demo
+#  roles:
+#    - base
+#    - demo
+#
+#- name: Set up the staging system
+#  hosts: staging
+#  roles:
+#    - base
+#    - staging
+#
+#- name: Set up the production system
+#  hosts: production
+#  roles:
+#    - base
+#    - production
