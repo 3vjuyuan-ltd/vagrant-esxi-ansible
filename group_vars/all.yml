@@ -8,5 +8,6 @@ nginx:
 
 php:
     version: "7.1.1"
+    source_file: "php-7.1.1.tar.gz"
     deb_filename: "php7.1.1-1-xenial"
     fpm_filename: "php-fpm_7.1-xenial"

@@ -5,34 +5,57 @@
   failed_when: php_deb_state.rc > 1
   changed_when: php_deb_state.rc == 1
 
-- name: Check if php-fpm is installed
-  command: dpkg-query -W php-fpm
-  register: fpm_deb_state
-  failed_when: fpm_deb_state.rc > 1
-  changed_when: fpm_deb_state.rc == 1
-
-- name: Copy php-fpm deb package the the client
-  copy:
-    src: roles/base/files/{{php.fpm_filename}}.deb
-    dest: /tmp/packages
-    owner: vagrant
-    group: vagrant
+- name: Make directory in HOME for php source code
+  file:
+    path: "{{ ansible_env.HOME}}/php-src"
+    state: directory
     mode: 0755
-  when: fpm_deb_state.rc == 1
 
-- name: Install php-fpm package with dpkg
-  apt: deb="/tmp/packages/{{php.fpm_filename}}.deb"
-  when: fpm_deb_state.rc == 1
+- name: Unzip the PHP source code file
+  unarchive:
+    src: roles/base/files/{{php.source_file}}
+    dest: "{{ ansible_env.HOME}}/php-src"
 
-- name: Copy php deb package the the client
-  copy:
-    src: roles/base/files/{{php.deb_filename}}.deb
-    dest: /tmp/packages
-    owner: vagrant
-    group: vagrant
-    mode: 0755
-  when: php_deb_state.rc == 1
 
-- name: Install php package with dpkg
-  apt: deb="/tmp/packages/{{php.deb_filename}}.deb"
-  when: php_deb_state.rc == 1
+
+#- name: Copy PHP source code file
+#  copy:
+#    src: roles/base/files/{{php.deb_filename}}
+#    dest: /tmp/packages
+#    owner: vagrant
+#    group: vagrant
+#    mode: 0755
+#  when: php_deb_state.rc == 1
+
+
+#- name: Check if php-fpm is installed
+#  command: dpkg-query -W php-fpm
+#  register: fpm_deb_state
+#  failed_when: fpm_deb_state.rc > 1
+#  changed_when: fpm_deb_state.rc == 1
+#
+#- name: Copy php-fpm deb package the the client
+#  copy:
+#    src: roles/base/files/{{php.fpm_filename}}.deb
+#    dest: /tmp/packages
+#    owner: vagrant
+#    group: vagrant
+#    mode: 0755
+#  when: fpm_deb_state.rc == 1
+#
+#- name: Install php-fpm package with dpkg
+#  apt: deb="/tmp/packages/{{php.fpm_filename}}.deb"
+#  when: fpm_deb_state.rc == 1
+#
+#- name: Copy php deb package the the client
+#  copy:
+#    src: roles/base/files/{{php.deb_filename}}.deb
+#    dest: /tmp/packages
+#    owner: vagrant
+#    group: vagrant
+#    mode: 0755
+#  when: php_deb_state.rc == 1
+#
+#- name: Install php package with dpkg
+#  apt: deb="/tmp/packages/{{php.deb_filename}}.deb"
+#  when: php_deb_state.rc == 1
