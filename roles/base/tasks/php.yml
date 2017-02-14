@@ -17,6 +17,16 @@
     dest: "{{ ansible_env.HOME}}/php-src"
 
 
+- name: Copy php install file
+  copy:
+    src: roles/base/files/php_install.sh
+    dest: /root/php-src/
+    owner: root
+    group: vagrant
+    mode: 0755
+
+- name: Install php
+  shell: /bin/bash /root/php-src/php_install.sh
 
 #- name: Copy PHP source code file
 #  copy:
