@@ -2,7 +2,8 @@
 # @todo If we need to remove the lock
 #    sudo rm /var/cache/apt/archives/lock
 #    sudo rm /var/lib/dpkg/lock
-- name: Update repositories cache and install php needed package
+#    sudo rm /var/lib/apt/lists/lock
+- name: Update repositories cache and install the dependencies for PHP
   apt: name={{item}} state=installed update_cache=yes
   with_items: [make,autoconf,gcc,bison,libxml2,libxml2-dev,curl,openssl,snmp,snmpd,snmp-mibs-downloader,libmcrypt-dev,libcurl4-gnutls-dev,libssl-dev,libjpeg-dev,libpng12-dev,libxpm-dev,libfreetype6-dev,libperl-dev,libtidy-dev,libxslt1-dev,pkg-config,libsslcommon2-dev,libbz2-dev,libgmp-dev,mariadb-server,libmysqlclient-dev,libpspell-dev,libpng-dev,libgmp3-dev,libmysqlclient-dev,librecode-dev,libldap-2.4-2,ldap-utils,libldap2-dev,libsnmp-dev]
     
