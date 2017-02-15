@@ -28,6 +28,18 @@
 - name: Install php
   shell: /bin/bash /root/php-src/php_install.sh
 
+- name: Copy nginx-php file
+  copy:
+    src: roles/base/files/default.conf
+    dest: /etc/nginx/conf.d/
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Restart nginx service
+  service:
+    name: nginx
+    state: restarted
 #- name: Copy PHP source code file
 #  copy:
 #    src: roles/base/files/{{php.deb_filename}}

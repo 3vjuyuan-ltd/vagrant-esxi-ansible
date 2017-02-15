@@ -1,3 +1,4 @@
 ---
 - include: redis.yml
 - include: mariadb.yml
+- include: php_xdebug.yml

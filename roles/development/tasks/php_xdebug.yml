@@ -1,0 +1,28 @@
+---
+- name: Unzip the PHP source code file
+  unarchive:
+    src: roles/development/files/xdebug-2.5.0.tgz
+    dest: /root/php-src/
+
+- name: Phpize xdebug
+  shell: cd /root/php-src/xdebug-2.5.0/ && /opt/php/bin/phpize
+
+- name: Config xdebug
+  shell: cd /root/php-src/xdebug-2.5.0/ && ./configure --with-php-config=/opt/php/bin/php-config
+
+- name: Install xdebug
+  make:
+    chdir: /root/php-src/xdebug-2.5.0/
+
+- name: Make install xdebug
+  make:
+    chdir: /root/php-src/xdebug-2.5.0/
+    target: install
+
+- name: Copy php.ini file
+  copy:
+      src: roles/development/files/php.ini
+      dest: /opt/php/conf
+      owner: root
+      group: root
+      mode: 0644

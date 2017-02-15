@@ -1,6 +1,6 @@
 ---
 - name: Check if redis-server is installed
-  command: dpkg-query -W mariadb-server
+  command: dpkg-query -W redis-server
   register: redis_deb_state
   failed_when: redis_deb_state.rc > 1
   changed_when: redis_deb_state.rc == 1
@@ -12,4 +12,4 @@
   when: redis_deb_state.rc == 1
 
 - name: make sure redis service running
-  service: name=redis-server state=started
+  service: name=redis-server state=restarted
