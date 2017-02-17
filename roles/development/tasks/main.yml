@@ -1,3 +1,5 @@
 ---
+- include: xdebug.yml
+- include: webserver.yml
 - include: redis.yml
 - include: mariadb.yml
