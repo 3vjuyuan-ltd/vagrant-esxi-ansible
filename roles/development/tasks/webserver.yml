@@ -1,0 +1,20 @@
+---
+- name: Copy php-fpm config file
+  copy:
+        src: roles/development/files/php-fpm.conf
+        dest: /opt/php/etc
+        owner: root
+        group: root
+        mode: 0644
+
+- name: Copy www config file
+  copy:
+        src: roles/development/files/www.conf
+        dest: /opt/php/etc/php-fpm.d
+        owner: root
+        group: root
+        mode: 0644
+
+# @todo: Error occurs with "No such file or directory". Fix it
+#- name: Start php-fpm service
+#  command: php-fpm

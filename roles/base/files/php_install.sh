@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #@todo User parameter for shell to assign the php version
-cd /root/php-src/php-7.1.1/
+cd /root/packages/php-7.1.1/
 
 ./buildconf --force
 

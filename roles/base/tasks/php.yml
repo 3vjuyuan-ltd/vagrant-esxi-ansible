@@ -1,36 +1,43 @@
 ---
+#@todo Check if it is useful for compiled php
 - name: Check if php is installed
-  command: dpkg-query -W php7.1
-  register: php_deb_state
-  failed_when: php_deb_state.rc > 1
-  changed_when: php_deb_state.rc == 1
-
-- name: Make directory in HOME for php source code
-  file:
-    path: "{{ ansible_env.HOME}}/php-src"
-    state: directory
-    mode: 0755
+  command: /opt/php/bin/php -v
+  register: php_installed
+  failed_when: php_installed.rc < 0
+  changed_when: php_installed.rc > 0
 
 - name: Unzip the PHP source code file
   unarchive:
     src: roles/base/files/{{php.source_file}}
-    dest: "{{ ansible_env.HOME}}/php-src"
+    dest: "{{ ansible_env.HOME}}/packages"
     creates: php.source.lock
+  when: php_installed.rc > 0
 
 - name: Install php
   script:  "roles/base/files/{{php.install_shell}}"
   args:
     creates: php.install.lock
+  when: php_installed.rc > 0
 
-- name: Copy nginx-php file
-  copy:
-    src: roles/base/files/default.conf
-    dest: /etc/nginx/conf.d/
-    owner: root
-    group: root
-    mode: 0644
+- name: Check if symlink for php is created in /usr/bin
+  stat:
+    path: /usr/bin/php
+  register: php_bin
 
-- name: Restart nginx service
-  service:
-    name: nginx
-    state: restarted
+- name: Create the symlinks for php commands in /usr/bin
+  file:
+    src: "/opt/php/bin/{{item.src}}"
+    dest: "/usr/bin/{{item.dest}}"
+    state: link
+  with_items:
+    - {src: 'php', dest: 'php'}
+    - {src: 'php-cgi', dest: 'php-cgi'}
+    - {src: 'phpize', dest: 'phpize'}
+    - {src: 'php-config', dest: 'php-config'}
+    - {src: 'phpdbg', dest: 'phpdbg'}
+    - {src: 'pear', dest: 'pear'}
+    - {src: 'peardev', dest: 'peardev'}
+    - {src: 'pecl', dest: 'pecl'}
+    - {src: 'phar', dest: 'phar'}
+    - {src: 'phar.phar', dest: 'phar.phar'}
+  when: php_bin.stat.exists == False
