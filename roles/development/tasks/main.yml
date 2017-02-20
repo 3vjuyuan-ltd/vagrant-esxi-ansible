@@ -1,5 +1,7 @@
 ---
 - include: xdebug.yml
 - include: webserver.yml
+- include: composer.yml
 - include: redis.yml
 - include: mariadb.yml
+- include: mariadb-secure.yml

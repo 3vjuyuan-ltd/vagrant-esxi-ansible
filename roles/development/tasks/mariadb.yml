@@ -7,7 +7,7 @@
 
 - name: Install the package "mariadb-server"
   apt:
-    name: mariadb-server
+    name: mariadb-server-10.0
     state: latest
   when: mariadb_deb_state.rc == 1
 

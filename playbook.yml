@@ -4,6 +4,7 @@
   roles:
     - base
     - development
+    - magento2
 
 #- name: Set up the CI/demo system
 #  hosts: demo

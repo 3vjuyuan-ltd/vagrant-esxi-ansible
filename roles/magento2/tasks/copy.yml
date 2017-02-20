@@ -1,0 +1,9 @@
+---
+#- name: Set repo.magento.com composer keys
+#  shell: composer config --global http-basic.repo.magento.com {{ magento_account_public_key }} {{ magento_account_private_key }}
+- name: Copy magento2
+  unarchive:
+    src: magento2.tar.gz
+    dest: /home/vagrant/repos/
+    owner: vagrant
+    group: vagrant
