@@ -41,6 +41,7 @@ system:
     - "npm"
     - "nodejs-legacy"
     - "graphicsmagick"
+    - "python-pexpect"
 
 nodejs:
   version: "4.3.0"
@@ -55,3 +56,6 @@ php:
   deb_filename: "php7.1.1-1-xenial"
   fpm_filename: "php-fpm_7.1-xenial"
   install_shell: "php_install.sh"
+
+mariadb:
+  passwd: "something"
