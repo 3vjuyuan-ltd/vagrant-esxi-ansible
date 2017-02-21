@@ -5,7 +5,26 @@
 #    sudo rm /var/lib/apt/lists/lock
 - name: Update repositories cache and install the dependencies for PHP
   apt: name={{item}} state=installed update_cache=yes
-  with_items: [make,autoconf,gcc,bison,libxml2,libxml2-dev,curl,openssl,snmp,snmpd,snmp-mibs-downloader,libmcrypt-dev,libcurl4-gnutls-dev,libssl-dev,libjpeg-dev,libpng12-dev,libxpm-dev,libfreetype6-dev,libperl-dev,libtidy-dev,libxslt1-dev,pkg-config,libsslcommon2-dev,libbz2-dev,libgmp-dev,mariadb-server,libmysqlclient-dev,libpspell-dev,libpng-dev,libgmp3-dev,libmysqlclient-dev,librecode-dev,libldap-2.4-2,ldap-utils,libldap2-dev,libsnmp-dev]
+  with_items: "{{system.packages}}"
+
+- name: Check npm verison
+  command: npm -v
+  register: npm_version
+
+- name: Install the specified npm version
+  command: npm install -g npm@{{nodejs.version}}
+  register: npm_install
+  when: npm_version.stdout != "{{nodejs.version}}"
+
+- name: Create symlink to installed npm
+  file:
+    src: /usr/local/lib/node_modules/npm/bin/npm-cli.js
+    dest: /usr/bin/npm
+    state: link
+    force: yes
+  when:
+    - not npm_install|skipped
+    - npm_install|succeeded
     
 - name: Make directory in /tmp for temporary uploads files
   file:
