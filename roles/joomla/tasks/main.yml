@@ -1,0 +1,108 @@
+---
+- name: Template supĥp conf file
+  template: src="suphp.conf" dest="/etc/suphp/suphp.conf"
+  tags:
+  - joomla
+
+- name: Make directory in repos for project
+  become: yes
+  file: path=/home/vagrant/repos/ state=directory owner=vagrant group=vagrant
+
+- name: Copy magento2
+  unarchive:
+    src:  Joomla_3.6.5-Stable-Full_Package.zip
+    dest: /home/vagrant/repos/
+    owner: vagrant
+    group: vagrant
+ 
+- name: copy test SUPHP file 
+  copy: src="testSUPHP.php" dest="{{joomla_install_dir}}/testSUPHP.php" owner="{{joomla_site_owner}}" group="{{joomla_site_group}}" mode=0775
+  tags:
+  - joomla
+
+# Creating Databases and users
+- name: Template initial data 
+  template: src="{{item.path}}" dest="~/{{item.name}}"
+  with_items: 
+  - "{{joomla_inject_sql_files}}"
+  tags:
+  - joomla
+  when: joomla_inject_sql == true
+
+- name: Template addAdmin.sql
+  template: src=admin.sql dest="~/{{joomla_mysql_db_name}}_admin.sql"
+  tags:
+  - joomla
+
+- name: Drop database if joomla_force_reinstall is true
+  mysql_db: name="{{joomla_mysql_db_name}}" login_user="root" login_password="{{joomla_mysql_root_passwd}}" state=absent
+  when: joomla_force_reinstall == true
+
+- name: Create mysql joomla database
+  mysql_db: encoding="utf8" login_user="root" login_password="{{joomla_mysql_root_passwd}}" name="{{joomla_mysql_db_name}}" state=present
+  tags:
+  - joomla
+
+- name: Determine if import has already been done
+  shell: mysql -e  'show tables;' {{joomla_mysql_db_name}}  
+  register: db_created
+  changed_when: "( db_created.stdout.find('{{joomla_site_dbprefix}}') == -1 )"
+  tags:
+  - joomla
+
+- debug: var=db_created 
+  tags:
+  - joomla
+
+- name: Import initial data in  mysql joomla database
+  mysql_db: encoding="utf8" login_user="root" login_password="{{joomla_mysql_root_passwd}}" name="{{joomla_mysql_db_name}}" target="~/{{item.name}}" state=import
+  with_items:
+  - "{{joomla_inject_sql_files}}"
+  when: db_created.changed and joomla_inject_sql == true
+  tags:
+  - joomla
+  
+- name: Create admin user in  mysql joomla database
+  mysql_db: encoding="utf8" login_user="root" login_password="{{joomla_mysql_root_passwd}}" name="{{joomla_mysql_db_name}}" target="~/{{joomla_mysql_db_name}}_admin.sql" state=import
+  ignore_errors: yes
+  tags:
+  - joomla
+
+
+- name: Delete admin.sql
+  file: path="~/{{joomla_mysql_db_name}}_admin.sql" state="absent"
+  tags:
+  - joomla
+  
+  
+- name: Delete installation dir 
+  file: path="{{joomla_install_dir}}/installation" state="absent"
+  tags:
+  - joomla
+  when: joomla_delete_installation_dir ==  true
+  
+- name: Create joomla DB user
+  mysql_user: name="{{joomla_mysql_admin_user}}" password="{{joomla_mysql_admin_passwd}}" priv="{{joomla_mysql_db_name}}.*:ALL" state="present" append_privs=yes
+  tags:
+  - joomla
+
+- name: restart mysql 
+  service: name=mysql state=restarted
+  tags:
+  - joomla
+
+
+# install Joomla
+- name: template configuration file 
+  template: src="configuration.php" dest="{{joomla_install_dir}}/configuration.php" owner="{{joomla_site_owner}}" group="{{joomla_site_group}}" mode=0764 
+  tags:
+  - joomla
+
+# Apache2 VHOST
+- name: Template VHOST 
+  template: src=joomla.conf.j2 dest="/etc/nginx/sites-available/{{joomla_site_name}}.conf"
+  tags:
+  - joomla
+
+
+  
