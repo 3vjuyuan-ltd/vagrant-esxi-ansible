@@ -1,8 +1,6 @@
 ---
 # defaults file for joomla-ansible/
 joomla_version: "3.4.3"
-# Url to get the joomla distribution
-joomla_dist_url: "https://github.com/joomla/joomla-cms/releases/download/{{joomla_version}}/Joomla_{{joomla_version}}-Stable-Full_Package.zip"
 
 # When True , do a get_url from {{joomla_dist_url}} 
 # When false, will do a file copy from role files/ directory 
@@ -32,7 +30,7 @@ joomla_install_dir: "/opt/joomla/{{joomla_site_name}}"
 
 
 # jommla root password for db and users creation Shoudl put something here :D
-joomla_mysql_root_passwd: ""
+joomla_mysql_root_passwd: "ubuntu"
 # Joomla DB Admin UserName
 joomla_mysql_admin_user : "joomla"
 # Joomla DB Admin passwd

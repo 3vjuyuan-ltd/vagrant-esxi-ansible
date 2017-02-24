@@ -1,0 +1,8 @@
+---
+- name: Copy Joomla
+  unarchive:
+    src: Joomla_3.6.5-Stable-Full_Package.zip
+    dest: /usr/share/nginx/html/
+    owner: vagrant
+    group: vagrant
+

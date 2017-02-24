@@ -9,6 +9,8 @@ cd /root/packages/php-7.1.1/
 	--prefix=/opt/php \
 	--with-config-file-path=/opt/php/conf \
 	--enable-fpm \
+	--with-fpm-user=vagrant \
+	--with-fpm-group=vagrant \
 	--enable-mbstring \
 	--enable-zip \
 	--enable-bcmath \
@@ -36,6 +38,7 @@ cd /root/packages/php-7.1.1/
 	--enable-mysqlnd \
 	--with-pdo-mysql=mysqlnd \
 	--with-mysqli=mysqlnd \
+	--with-mysql-sock \
 	--with-gettext=/usr \
 	--with-zlib=/usr \
 	--with-bz2=/usr \
