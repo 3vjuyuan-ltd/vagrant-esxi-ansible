@@ -4,16 +4,6 @@
   tags:
   - joomla
 
-- name: Make directory in repos for project
-  become: yes
-  file: path=/home/vagrant/repos/ state=directory owner=vagrant group=vagrant
-
-- name: Copy magento2
-  unarchive:
-    src:  Joomla_3.6.5-Stable-Full_Package.zip
-    dest: /home/vagrant/repos/
-    owner: vagrant
-    group: vagrant
  
 - name: copy test SUPHP file 
   copy: src="testSUPHP.php" dest="{{joomla_install_dir}}/testSUPHP.php" owner="{{joomla_site_owner}}" group="{{joomla_site_group}}" mode=0775
