@@ -41,3 +41,22 @@
     - {src: 'phar', dest: 'phar'}
     - {src: 'phar.phar', dest: 'phar.phar'}
   when: php_bin.stat.exists == False
+
+- name: Check if composer is installed
+  stat:
+    path: /usr/local/bin/composer
+  register: composer_bin
+
+- name: Download Composer installer.
+  get_url:
+    url: https://getcomposer.org/installer
+    dest: "{{ ansible_env.HOME}}/packages/composer-installer.php"
+    mode: 0755
+  when: composer_bin.stat.exists == False
+
+- name: Run Composer installer.
+  command: php composer-installer.php --filename=composer --install-dir=/usr/local/bin
+  args:
+    chdir: "{{ ansible_env.HOME}}/packages/"
+    creates: composer.install.lock
+  when: not composer_bin.stat.exists
