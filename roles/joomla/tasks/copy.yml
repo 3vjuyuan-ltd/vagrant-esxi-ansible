@@ -6,3 +6,9 @@
     owner: vagrant
     group: vagrant
 
+- name: Copy Joomla database
+  copy:
+    src: joomla.sql
+    dest: /home/vagrant
+    owner: vagrant
+    group: vagrant

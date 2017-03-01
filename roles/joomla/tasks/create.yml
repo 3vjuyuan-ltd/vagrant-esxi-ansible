@@ -19,4 +19,9 @@
   mysql_user: name={{ mysql_user }} password={{ mysql_password }} priv={{ mysql_dbname }}.*:ALL,GRANT state=present
 
 - name: Import database
-  command: mysql -u{{ mysql_user }} -p{{ mysql_password }} joomla < joomla.sql
+  shell: mysql -uroot -pubuntu joomla < joomla.sql
+  args:
+    chdir: /home/vagrant
+
+- name: Delete database
+  file: path=/home/vagrant/joomla.sql state=absent
