@@ -22,4 +22,4 @@
 - name: Copy php.ini file
   copy:
       src: roles/development/files/php.ini
-      dest: /opt/php/conf
+      dest: /opt/php/conf/
