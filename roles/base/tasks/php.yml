@@ -42,6 +42,12 @@
     - {src: 'phar.phar', dest: 'phar.phar'}
   when: php_bin.stat.exists == False
 
+- name: Create the symlinks for php-fpm commands in /usr/bin
+  file:
+    src: "/opt/php/sbin/php-fpm"
+    dest: "/usr/bin/php-fpm"
+    state: link
+
 - name: Check if composer is installed
   stat:
     path: /usr/local/bin/composer
