@@ -21,5 +21,6 @@
 #@todo Use xdebug_config.stdout_lines to read the xdebug.so file path
 - name: Copy php.ini file
   copy:
-      src: roles/development/files/php.ini
-      dest: /opt/php/conf
+      src: roles/development/files/{{php.config_file}}
+      dest: /opt/php/conf/php.ini
+      force: yes

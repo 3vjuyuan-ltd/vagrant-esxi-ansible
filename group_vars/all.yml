@@ -49,6 +49,7 @@ nodejs:
 nginx:
   version: "1.10.3"
   deb_filename: "nginx_1.10.3_amd64"
+  default_config: "default.conf"
 
 php:
   version: "7.1.1"
@@ -56,6 +57,7 @@ php:
   deb_filename: "php7.1.1-1-xenial"
   fpm_filename: "php-fpm_7.1-xenial"
   install_shell: "php_install.sh"
+  config_file: "php.ini"
 
 mariadb:
   passwd: "something"

@@ -15,6 +15,5 @@
         group: root
         mode: 0644
 
-# @todo: Error occurs with "No such file or directory". Fix it
-#- name: Start php-fpm service
-#  command: php-fpm
+- name: Start php-fpm service
+  command: php-fpm
