@@ -1,4 +1,7 @@
 ---
+mysql_user: magento2
+mysql_password: magento2
+mysql_dbname: magento2
 magento2_language: en_US
 magento2_currency: USD
 magento2_admin_user: admin
@@ -7,4 +10,4 @@ magento2_admin_email: null@magento.com
 magento2_admin_firstname: John
 magento2_admin_lastname: Doe
 magento2_crypt_key: a7e7ab5cd150d7d7044eeada37af527b
-magento2_base_url: http://192.168.10.227
+magento2_base_url: http://192.168.10.221

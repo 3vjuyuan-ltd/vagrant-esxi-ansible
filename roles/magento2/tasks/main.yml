@@ -32,3 +32,11 @@
 - include: conf.yml
 
 - name: Restart nginx
+  service:
+      name: nginx
+      state: restarted
+
+- name: Ensure magento direcory permissions
+  shell: chown vagrant:vagrant -R magento2
+  args:
+    chdir: /home/vagrant/repos/

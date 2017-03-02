@@ -18,35 +18,24 @@
   apt: deb="{{ ansible_env.HOME}}/packages/{{nginx.deb_filename}}.deb"
   when: nginx_deb_state.rc == 1
   
-- name: Ensure nginx service is started
-  service:
-    name: nginx
-    state: restarted
-
-- name: Copy nginx file
-  copy: src=nginx.conf dest=/etc/nginx/nginx.conf
-  notify: Reload nginx
-
 - name: Repos directory
   become: yes
   file: path={{ item }} state=directory owner=root group=root
   with_items:
     - /etc/nginx/sites-available/
-    - /etc/nginx/sites-enabled/
-
-- name: Copy magento2.conf
-  become: yes
+    
+- name: Copy nginx file
   copy: src=magento2.conf dest=/etc/nginx/sites-available/magento2.conf
-  notify: Reload nginx
-
+  
 - name: Disable default site
   become: yes
-  file: path=/etc/nginx/sites-enabled/default state=absent
-  notify: Reload nginx
+  file: path=/etc/nginx/conf.d/default.conf state=absent
 
 - name: Enable magento2 site
   become: yes
-  file: src=/etc/nginx/sites-available/magento2.conf dest=/etc/nginx/sites-enabled/magento2 state=link
-  notify: Reload nginx
+  file: src=/etc/nginx/sites-available/magento2.conf dest=/etc/nginx/conf.d/magento2.conf state=link
 
-
+- name: Ensure nginx service is started
+  service:
+    name: nginx
+    state: restarted
