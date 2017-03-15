@@ -2,6 +2,14 @@
 - include: copy.yml
 - include: create.yml
 
+- name:
+  file:
+    path: /home/vagrant/joomla
+    state: directory
+    owner: vagrant
+    group: vagrant
+    mode: 0775
+
 - name: Restart nginx service
   service:
     name: nginx
