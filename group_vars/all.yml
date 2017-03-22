@@ -40,8 +40,13 @@ system:
     - "libsnmp-dev"
     - "npm"
     - "nodejs-legacy"
-    - "graphicsmagick"
     - "python-pexpect"
+    - "graphicsmagick"
+    - "libjpeg-turbo-progs"
+    - "optipng"
+    - "pngcrush"
+    - "pngquant"
+    - "pngnq"
 
 nodejs:
   version: "4.3.0"

@@ -1,5 +1,4 @@
 ---
-#@todo Check if it is useful for compiled php
 - name: Check if php is installed
   command: /opt/php/bin/php -v
   register: php_installed
@@ -9,12 +8,20 @@
 - name: Unzip the PHP source code file
   unarchive:
     src: roles/base/files/{{php.source_file}}
-    dest: "{{ ansible_env.HOME}}/packages"
+    dest: "{{ansible_env.HOME}}/packages"
     creates: php.source.lock
   when: php_installed.rc > 0
 
+#@todo Use ansible command instead of shell
+- name: Copy php install shell
+  copy:
+    src: "roles/base/files/{{php.install_shell}}"
+    dest: "{{ansible_env.HOME}}/packages"
+    mode: 0777
+  when: php_installed.rc > 0
+
 - name: Install php
-  script:  "roles/base/files/{{php.install_shell}}"
+  shell: "{{ansible_env.HOME}}/packages/{{php.install_shell}}"
   args:
     creates: php.install.lock
   when: php_installed.rc > 0
@@ -30,16 +37,16 @@
     dest: "/usr/bin/{{item.dest}}"
     state: link
   with_items:
-    - {src: 'php', dest: 'php'}
-    - {src: 'php-cgi', dest: 'php-cgi'}
-    - {src: 'phpize', dest: 'phpize'}
-    - {src: 'php-config', dest: 'php-config'}
-    - {src: 'phpdbg', dest: 'phpdbg'}
-    - {src: 'pear', dest: 'pear'}
-    - {src: 'peardev', dest: 'peardev'}
-    - {src: 'pecl', dest: 'pecl'}
-    - {src: 'phar', dest: 'phar'}
-    - {src: 'phar.phar', dest: 'phar.phar'}
+    - {src: "php", dest: "php"}
+    - {src: "php-cgi", dest: "php-cgi"}
+    - {src: "phpize", dest: "phpize"}
+    - {src: "php-config", dest: "php-config"}
+    - {src: "phpdbg", dest: "phpdbg"}
+    - {src: "pear", dest: "pear"}
+    - {src: "peardev", dest: "peardev"}
+    - {src: "pecl", dest: "pecl"}
+    - {src: "phar", dest: "phar"}
+    - {src: "phar.phar", dest: "phar.phar"}
   when: php_bin.stat.exists == False
 
 - name: Create the symlinks for php-fpm commands in /usr/bin
@@ -71,5 +78,3 @@
   file:
     path: /opt/php/conf
     state: directory
-
-
