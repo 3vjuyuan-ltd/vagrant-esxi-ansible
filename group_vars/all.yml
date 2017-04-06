@@ -61,8 +61,59 @@ php:
   source_file: "php-7.1.1.tar.gz"
   deb_filename: "php7.1.1-1-xenial"
   fpm_filename: "php-fpm_7.1-xenial"
-  install_shell: "php_install.sh"
   config_file: "php.ini"
+  build_configure_command: "./buildconf --force"
+  source_configure_command: >
+    ./configure
+    --prefix=/opt/php
+    --with-config-file-path=/opt/php/conf
+    --enable-fpm
+    --with-fpm-user=vagrant
+    --with-fpm-group=vagrant
+    --enable-mbstring
+    --enable-zip
+    --enable-bcmath
+    --enable-ftp
+    --enable-exif
+    --enable-calendar
+    --enable-sysvmsg
+    --enable-sysvsem
+    --enable-sysvshm
+    --enable-wddx
+    --with-curl=/usr/bin
+    --with-mcrypt
+    --with-iconv-dir=/usr
+    --with-pspell
+    --with-gd
+    --with-jpeg-dir=/usr
+    --with-png-dir=/usr
+    --with-zlib-dir=/usr
+    --with-xpm-dir=/usr
+    --with-freetype-dir=/usr
+    --enable-gd-native-ttf
+    --enable-gd-jis-conv
+    --with-openssl
+    --enable-mysqlnd
+    --with-pdo-mysql=mysqlnd
+    --with-mysqli=mysqlnd
+    --with-mysql-sock
+    --with-gettext=/usr
+    --with-zlib=/usr
+    --with-bz2=/usr
+    --with-recode=/usr
+    --with-tidy=/usr
+    --with-xsl=/usr
+    --with-ldap
+    --with-xmlrpc
+    --with-snmp=/usr
+    --with-pear
+    --with-libdir=/lib/x86_64-linux-gnu
+    --enable-shmop
+    --enable-maintainer-zts -enable-opcache
+    --enable-sockets
+    --with-snmp
+    --enable-soap
+    --enable-intl
 
 mariadb:
   passwd: "something"

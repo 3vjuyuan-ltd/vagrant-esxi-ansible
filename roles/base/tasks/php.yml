@@ -12,18 +12,20 @@
     creates: php.source.lock
   when: php_installed.rc > 0
 
-#@todo Use ansible command instead of shell
-- name: Copy php install shell
-  copy:
-    src: "roles/base/files/{{php.install_shell}}"
-    dest: "{{ansible_env.HOME}}/packages"
-    mode: 0777
+- name: Run configure script
+  shell:  "{{ item }}"
+  args:
+    chdir: "{{ ansible_env.HOME}}/packages/php-7.1.1/"
+    creates: php.install.lock
+  with_items:
+    - "{{ php.build_configure_command }}"
+    - "{{ php.source_configure_command }}"
   when: php_installed.rc > 0
 
-- name: Install php
-  shell: "{{ansible_env.HOME}}/packages/{{php.install_shell}}"
-  args:
-    creates: php.install.lock
+- name: Make and install php
+  make:
+    chdir: "{{ ansible_env.HOME}}/packages/php-7.1.1/"
+    target: install
   when: php_installed.rc > 0
 
 - name: Check if symlink for php is created in /usr/bin
