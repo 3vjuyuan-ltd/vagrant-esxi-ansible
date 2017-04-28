@@ -1,0 +1,10 @@
+---
+- name: Update repositories cache and install the dependencies for rvm
+  apt: name={{item}} state=installed update_cache=yes
+  with_items: "{{rvm.packages}}"
+
+- name: Install rvm
+  command: "curl -L https://get.rvm.io | bash -s stable"
+
+- name: Install ruby
+  command: "rvm install "

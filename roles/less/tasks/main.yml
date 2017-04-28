@@ -1,0 +1,6 @@
+---
+- name: Npm install less
+  commond: "npm install -g less"
+
+- name: Npm install autoless
+  command: "npm install -g autoless"

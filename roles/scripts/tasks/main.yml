@@ -1,0 +1,22 @@
+---
+- name: Create script directory
+  file:
+      path: "/home/vagrant/scripts/"
+      state: directory
+      mode: 0755
+
+- name: Copy scrips to client
+  copy:
+      src: remove_dotunderscore
+      dest: /home/vagrant/scripts/
+      owner: root
+      group: root
+      mode: 0644
+
+- name: Copy login scrips to client
+  copy:
+      src: login.sh
+      dest: /home/vagrant/scripts/
+      owner: root
+      group: root
+      mode: 0644

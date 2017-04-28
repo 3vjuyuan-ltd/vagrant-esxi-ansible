@@ -1,0 +1,7 @@
+---
+mailhog_install_dir: /opt/mailhog
+mailhog_binary_packages: MailHog_linux_amd64
+mhsendmail_binary_packages: mhsendmail_linux_amd64
+
+# Path to daemonize, which is used to launch MailHog via init script.
+mailhog_daemonize_bin_path: /usr/sbin/daemonize
