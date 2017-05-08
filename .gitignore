@@ -3,3 +3,4 @@ config.box.json
 temp/
 .idea/
 playbook.retry
+config.box.json
