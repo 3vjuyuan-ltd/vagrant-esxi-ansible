@@ -12,15 +12,18 @@ required_plugins.each do |plugin|
     exec "vagrant plugin install #{plugin} && vagrant #{ARGV.join(" ")}" unless Vagrant.has_plugin? plugin || ARGV[0] == 'plugin'
 end
 
+def createVagrantLink()
+    FileUtils.rm_rf("./.vagrant")
+    projectHomePath = ENV["HOME"]+"/projects/" + File.basename(File.expand_path("..", Dir.pwd)) + '_' + Digest::MD5.hexdigest(Dir.pwd + Time.now.utc.iso8601)[rand(22), 10] + "/.vagrant"
+    if !File.directory?(projectHomePath)
+        FileUtils.mkpath projectHomePath
+    end
+    FileUtils.ln_s projectHomePath, ".vagrant"
+end
+
 # Create symlink for vagrant files in home path.
 if !File.symlink?("./.vagrant")
-	FileUtils.rm_rf("./.vagrant")
-	
-	projectHomePath = ENV["HOME"]+"/projects/" + Digest::MD5.hexdigest(Dir.pwd + Time.now.utc.iso8601) + "/.vagrant"
-	if !File.directory?(projectHomePath)
-		FileUtils.mkpath projectHomePath
-	end
-	FileUtils.ln_s projectHomePath, ".vagrant"
+    createVagrantLink
 end
 
 # define deep merge for two hash map
