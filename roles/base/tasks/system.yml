@@ -12,6 +12,9 @@
     - /var/lib/dpkg/lock
     - /var/lib/apt/lists/lock
 
+- name: Reconfigure packages
+  command: dpkg --configure -a
+
 - name: Update repositories cache and install the dependencies for PHP
   apt: name={{item}} state=installed update_cache=yes
   with_items: "{{system.packages}}"
