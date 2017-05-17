@@ -1,8 +1,16 @@
 ---
-# @todo If we need to remove the lock
-#    sudo rm /var/cache/apt/archives/lock
-#    sudo rm /var/lib/dpkg/lock
-#    sudo rm /var/lib/apt/lists/lock
+- name: Remove the lock
+  file:
+    path: "{{ item }}"
+    state: absent
+  with_items:
+    - /var/cache/apt/archives/lock
+    - /var/lib/dpkg/lock
+    - /var/lib/apt/lists/lock
+
+- name: Reconfigure packages
+  command: dpkg --configure -a
+
 - name: Update repositories cache and install the dependencies for PHP
   apt: name={{item}} state=installed update_cache=yes
   with_items: "{{system.packages}}"
