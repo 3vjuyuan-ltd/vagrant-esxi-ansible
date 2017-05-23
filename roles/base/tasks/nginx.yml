@@ -24,6 +24,11 @@
     force: yes
   when: nginx_deb_state.rc <= 1
 
+- name: Configure RUNTIME_ENVIROMENT
+  copy:
+    src: "{{nginx.enviromrnt_config}}"
+    dest: /etc/nginx/fastcgi_params
+
 - name: Ensure nginx service is started
   service:
     name: nginx
