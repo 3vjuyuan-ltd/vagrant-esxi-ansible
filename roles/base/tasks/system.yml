@@ -11,28 +11,20 @@
 - name: Reconfigure packages
   command: dpkg --configure -a
 
+- name: Add node.js v8.x repository
+  shell:  "curl -sL https://deb.nodesource.com/setup_8.x | bash -"
+
 - name: Update repositories cache and install the dependencies for PHP
-  apt: name={{item}} state=installed update_cache=yes
+  apt: name={{item}} update_cache=yes
   with_items: "{{system.packages}}"
 
-- name: Check npm verison
-  command: npm -v
-  register: npm_version
+- name: Check if node.js is installed
+  command: node -v
+  register: node_version
+  failed_when: node_version.rc < 0
+  changed_when: node_version.rc > 0
 
-- name: Install the specified npm version
-  command: npm install -g npm@{{nodejs.version}}
-  register: npm_install
-  when: npm_version.stdout != "{{nodejs.version}}"
 
-- name: Create symlink to installed npm
-  file:
-    src: /usr/local/lib/node_modules/npm/bin/npm-cli.js
-    dest: /usr/bin/npm
-    state: link
-    force: yes
-  when:
-    - not npm_install|skipped
-    - npm_install|succeeded
     
 - name: Make directory in /tmp for temporary uploads files
   file:
