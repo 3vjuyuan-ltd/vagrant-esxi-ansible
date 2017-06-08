@@ -7,7 +7,7 @@
 # pidfile: /var/run/php-fpm.pid
 # config: /usr/local/php/etc/php-fpm.conf
   
-php_command=/usr/bin/php-fom
+php_command=/usr/bin/php-fpm
 php_config=/opt/php/etc/php-fpm.conf
 php_pid=/opt/php/var/run/php-fpm.pid
 RETVAL=0
