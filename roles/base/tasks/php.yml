@@ -57,6 +57,19 @@
     dest: "/usr/bin/php-fpm"
     state: link
 
+- name: Copy php-fpm start file
+  copy:
+    src: roles/development/files/php-fpm
+    dest: /etc/init.d/php-fpm
+    owner: root
+    group: root
+    mode: 0755
+
+- name: Boot start php-fpm
+  command: update-rc.d php-fpm defaults 01
+  args:
+    chdir: /etc/init.d
+
 - name: Check if composer is installed
   stat:
     path: /usr/local/bin/composer
