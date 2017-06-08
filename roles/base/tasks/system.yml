@@ -11,31 +11,17 @@
 - name: Reconfigure packages
   command: dpkg --configure -a
 
-- name: Update repositories cache and install the dependencies for PHP
-  apt: name={{item}} state=installed update_cache=yes
-  with_items: "{{system.packages}}"
+- name: Add node.js v8.x repository
+  shell:  "curl -sL https://deb.nodesource.com/setup_8.x | bash -"
+  register: node_source
+  failed_when: node_source.rc != 0
 
-- name: Check npm verison
-  command: npm -v
-  register: npm_version
-
-- name: Install the specified npm version
-  command: npm install -g npm@{{nodejs.version}}
-  register: npm_install
-  when: npm_version.stdout != "{{nodejs.version}}"
-
-- name: Create symlink to installed npm
-  file:
-    src: /usr/local/lib/node_modules/npm/bin/npm-cli.js
-    dest: /usr/bin/npm
-    state: link
-    force: yes
-  when:
-    - not npm_install|skipped
-    - npm_install|succeeded
-    
 - name: Make directory in /tmp for temporary uploads files
   file:
     path: "{{ ansible_env.HOME}}/packages"
     state: directory
     mode: 0755
+
+- name: Update repositories cache and install the dependencies for PHP
+  apt: name={{item}} update_cache=yes
+  with_items: "{{system.packages}}"
