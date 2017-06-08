@@ -59,7 +59,7 @@
 
 - name: Copy php-fpm start file
   copy:
-    src: roles/development/files/php-fpm
+    src: roles/base/files/php-fpm
     dest: /etc/init.d/php-fpm
     owner: root
     group: root
