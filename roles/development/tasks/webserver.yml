@@ -15,5 +15,18 @@
         group: root
         mode: 0644
 
+- name: Copy php-fpm start file
+  copy:
+        src: roles/development/files/php-fpm
+        dest: /etc/init.d/php-fpm
+        owner: root
+        group: root
+        mode: 0755
+
+- name: Boot start php-fpm
+  command: update-rc.d php-fpm defaults 01
+  args:
+      chdir: /etc/init.d
+
 - name: Start php-fpm service
   command: php-fpm
