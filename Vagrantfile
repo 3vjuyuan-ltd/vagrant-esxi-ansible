@@ -67,11 +67,11 @@ Vagrant.configure(2) do |config|
     vs.password = config_data['vsphere']['passwd']
     vs.memory_mb = config_data['vm']['memory']
     vs.cpu_count = config_data['vm']['cpu_count']
-    vs.vlan = config_data['vm']['vlan']
+    if config_data['vm'].has_key?('vlan')
+         vs.vlan = config_data['vm']['vlan']
+    end
     vs.insecure = true
   end
-
-  config.vm.box_url = "https://www.intern.3vjuyuan.com/project-box/box.json"
   
   # @todo Get guest vm ip and set host file for ansible and windows
   # @todo Configuration in json file and supports multiple playbooks

@@ -2,7 +2,8 @@
   "project": "project-name",
   "name": "your-name",
   "box":{
-    "name": "3vjuyuan/lnmp"
+    "name": "3vjuyuan/lnmp",
+     "url": "https://www.intern.3vjuyuan.com/project-box/box.json"
   },
   "vsphere": {
     "vcenter": "192.168.1.50",
