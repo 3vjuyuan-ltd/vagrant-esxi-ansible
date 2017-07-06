@@ -1,6 +1,6 @@
 vagrant-esxi-ansible
 ====
-Vagrant box and configuration with esxi as provider and ansible as provision
+Vagrant box and configuration with esxi as provider and ansible as provision.
 
 ## Configuration
 This provider has the following settings, all are required unless noted:
