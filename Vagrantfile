@@ -70,6 +70,8 @@ Vagrant.configure(2) do |config|
     vs.vlan = config_data['vm']['vlan']
     vs.insecure = true
   end
+
+  config.vm.box_url = "https://www.intern.3vjuyuan.com/project-box/box.json"
   
   # @todo Get guest vm ip and set host file for ansible and windows
   # @todo Configuration in json file and supports multiple playbooks
