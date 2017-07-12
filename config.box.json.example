@@ -2,13 +2,15 @@
   "project": "project-name",
   "name": "your-name",
   "box":{
-    "name": "vsphere.box"
+    "name": "3vjuyuan/lnmp",
+     "url": "https://www.3vjuyuan.com/files/project-box/box.json"
   },
   "vsphere": {
     "vcenter": "192.168.1.50",
     "data_center":"data",
     "host": "192.168.1.10",
-    "template": "ubuntu-16-box",
+    "template": "Templates/ubuntu-16-box",
+    "base_path": "vagrant-box/box/",
     "resource_pool": "box",
     "storage": "/datastore2_st_1000",
     "user": "vcenter-user",
@@ -16,6 +18,7 @@
   },
   "vm": {
     "cpu_count": 2,
-    "memory": 4096
+    "memory": 4096,
+    "vlan": "VM Network"
   }
 }

@@ -61,11 +61,15 @@ Vagrant.configure(2) do |config|
     vs.resource_pool_name = config_data['vsphere']['resource_pool']
     vs.data_store_name = config_data['vsphere']['storage']
     vs.template_name = config_data['vsphere']['template']
+    vs.vm_base_path = config_data['vsphere']['base_path']
     vs.name = "#{config_data['name']}@#{config_data['project']}.#{config.vm.box}"
     vs.user = config_data['vsphere']['user']
     vs.password = config_data['vsphere']['passwd']
     vs.memory_mb = config_data['vm']['memory']
     vs.cpu_count = config_data['vm']['cpu_count']
+    if config_data['vm'].has_key?('vlan')
+         vs.vlan = config_data['vm']['vlan']
+    end
     vs.insecure = true
   end
   
