@@ -1,6 +1,8 @@
 ---
 - include: java.yml
 
+- include: install-maven.yml
+
 - name: Download tomcat
   get_url: url=http://archive.apache.org/dist/tomcat/tomcat-8/v{{tomcat_version}}/bin/apache-tomcat-{{tomcat_version}}.tar.gz
            dest=/tmp/apache-tomcat-{{tomcat_version}}.tar.gz

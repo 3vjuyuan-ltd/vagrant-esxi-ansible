@@ -18,3 +18,7 @@ max_metaspace_size: 128M
 
 gc_log_file: /opt/tomcat/logs/gc.log
 heap_dump_dir: /opt/tomcat/logs/
+
+maven_major: 3
+maven_version: 3.5.0
+maven_home_parent_directory: /opt
