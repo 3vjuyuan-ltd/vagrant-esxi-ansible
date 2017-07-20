@@ -3,7 +3,7 @@
   "name": "your-name",
   "box":{
     "name": "3vjuyuan/lnmp",
-     "url": "https://www.3vjuyuan.com/files/project-box/box.json"
+     "url": "https://raw.githubusercontent.com/3vjuyuan/vagrant-esxi-ansible/master/box/box.json"
   },
   "vsphere": {
     "vcenter": "192.168.1.50",
