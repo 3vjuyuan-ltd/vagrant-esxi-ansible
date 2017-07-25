@@ -4,7 +4,6 @@
   roles:
     - base
     - development
-    - tomcat
 
 #- name: Set up the CI/demo system
 #  hosts: demo

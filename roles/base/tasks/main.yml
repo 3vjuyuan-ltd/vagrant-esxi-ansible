@@ -2,3 +2,6 @@
 - include: system.yml
 - include: nginx.yml
 - include: php.yml
+- include: java.yml
+- include: maven.yml
+- include: tomcat.yml

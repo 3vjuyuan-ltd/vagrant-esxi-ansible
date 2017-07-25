@@ -26,7 +26,7 @@
   <Listener className="org.apache.catalina.mbeans.GlobalResourcesLifecycleListener" />
   <Listener className="org.apache.catalina.core.ThreadLocalLeakPreventionListener" />
   <Listener className="org.apache.catalina.mbeans.JmxRemoteLifecycleListener"
-	rmiRegistryPortPlatform="{{jmx_registry_port}}" rmiServerPortPlatform="{{jmx_server_port}}" />
+	rmiRegistryPortPlatform="{{tomcat.jmx_registry_port}}" rmiServerPortPlatform="{{tomcat.jmx_server_port}}" />
 
   <GlobalNamingResources>
     <Resource name="UserDatabase" auth="Container"
@@ -38,11 +38,11 @@
 
   <Service name="Catalina">
 
-    <Connector port="{{http_port}}" protocol="HTTP/1.1" allowTrace="false"
+    <Connector port="{{tomcat.http_port}}" protocol="HTTP/1.1" allowTrace="false"
                connectionTimeout="20000" URIEncoding="UTF-8" enableLookups="false"
                redirectPort="8443" />
-{% if ajp_port %}
-    <Connector port="{{ajp_port}}" protocol="AJP/1.3" allowTrace="false"
+{% if tomcat.ajp_port %}
+    <Connector port="{{tomcat.ajp_port}}" protocol="AJP/1.3" allowTrace="false"
                URIEncoding="UTF-8" enableLookups="false"
 	       redirectPort="8443" />
 {% endif %}
