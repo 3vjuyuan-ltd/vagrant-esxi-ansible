@@ -17,10 +17,28 @@
     deb: "{{ ansible_env.HOME}}/packages/{{nginx.deb_filename}}.deb"
   when: nginx_deb_state.rc == 1
 
+- name: Copy nginx configuration file into box
+  template:
+    src: nginx.conf
+    dest: "/etc/nginx/"
+    mode: 0644
+
 - name: Copy nginx file
-  copy:
+  template:
     src: "{{nginx.default_config}}"
-    dest: /etc/nginx/conf.d/default.conf
+    dest: /etc/nginx/conf.d/{{ nginx.server_name }}.conf
     force: yes
-  when: nginx_deb_state.rc <= 1
   notify: Restart nginx
+  when: nginx_deb_state.rc <= 1
+
+- name: Check if default nginx file exists
+  stat:
+    path: /etc/nginx/conf.d/default.conf
+  register: nginx_default
+
+- name: Delete default nginx file if it exists
+  file:
+    path: /etc/nginx/conf.d/default.conf
+    state: absent
+  notify: Restart nginx
+  when: nginx_default.stat.exists == True

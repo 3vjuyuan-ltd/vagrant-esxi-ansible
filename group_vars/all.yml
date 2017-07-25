@@ -55,6 +55,7 @@ nginx:
   version: "1.10.3"
   deb_filename: "nginx_1.10.3_amd64"
   default_config: "default.conf"
+  server_name: "example.3vjuyuan.com"
 
 php:
   version: "7.1.1"
