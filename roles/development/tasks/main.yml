@@ -3,3 +3,4 @@
 - include: webserver.yml
 - include: redis.yml
 - include: mariadb.yml
+- include: behat.yml
