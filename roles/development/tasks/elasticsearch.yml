@@ -1,0 +1,13 @@
+---
+- name: Copy docker-compose config
+  copy:
+    src: "docker-elasticsearch.yml"
+    dest: "{{ ansible_env.HOME}}/docker-compose.yml"
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Install elasticsearch server
+  shell: docker-compose up -d
+  args:
+    chdir: "{{ ansible_env.HOME}}"
