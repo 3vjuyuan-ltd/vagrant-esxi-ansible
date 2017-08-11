@@ -1,12 +1,4 @@
 ---
-- name: Reload nginx
-  become: yes
-  service: name=nginx state=reloaded enabled=yes
-
 - name: Restart nginx
   become: yes
   service: name=nginx state=restarted enabled=yes
-
-- name: Restart mysql
-  become: yes
-  service: name=mysql state=restarted enabled=yes

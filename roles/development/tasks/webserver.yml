@@ -4,14 +4,14 @@
     src: nginx.conf
     dest: "/etc/nginx/"
     mode: 0644
-  notify: Reload nginx
+  notify: Restart nginx
 
 - name: Copy nginx file
   template:
     src: "{{nginx.default_config}}"
     dest: /etc/nginx/conf.d/{{ nginx_server_name }}.conf
     force: yes
-  notify: Reload nginx
+  notify: Restart nginx
 
 - name: Check if default nginx file exists
   stat:
@@ -31,7 +31,7 @@
         owner: root
         group: root
         mode: 0644
-  notify: Reload nginx
+  notify: Restart nginx
 
 - name: Copy www config file
   copy:
@@ -40,7 +40,7 @@
         owner: root
         group: root
         mode: 0644
-  notify: Reload nginx
+  notify: Restart nginx
 
 - name: Start php-fpm service
   command: php-fpm

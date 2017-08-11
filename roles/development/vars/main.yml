@@ -1,2 +1,3 @@
 ---
-nginx_server_name: example.3vjuyuan.com
+nginx_domain_name: 3vjuyuan.com
+nginx_project_name: 3vjuyuan
