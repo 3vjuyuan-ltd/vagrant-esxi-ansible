@@ -16,15 +16,3 @@
   apt:
     deb: "{{ ansible_env.HOME}}/packages/{{nginx.deb_filename}}.deb"
   when: nginx_deb_state.rc == 1
-
-- name: Copy nginx file
-  copy:
-    src: "{{nginx.default_config}}"
-    dest: /etc/nginx/conf.d/default.conf
-    force: yes
-  when: nginx_deb_state.rc <= 1
-
-- name: Ensure nginx service is started
-  service:
-    name: nginx
-    state: restarted
