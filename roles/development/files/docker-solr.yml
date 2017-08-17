@@ -1,0 +1,10 @@
+version: '2'
+services:
+  solr:
+    image: solr:6-alpine
+    container_name: solr
+#    volumes:
+#      - /mnt/solr:/opt/solr/server/solr/mycores
+    entrypoint:
+      - docker-entrypoint.sh
+      - solr-precreate
