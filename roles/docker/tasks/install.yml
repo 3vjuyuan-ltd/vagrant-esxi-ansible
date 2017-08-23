@@ -14,3 +14,11 @@
     owner: root
     group: root
     mode: 0755
+
+- name: Copy environment file
+  copy:
+    src: ".env"
+    dest: "{{ ansible_env.HOME}}/.env"
+    owner: root
+    group: root
+    mode: 0755
