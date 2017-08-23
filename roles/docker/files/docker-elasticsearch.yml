@@ -2,6 +2,8 @@ version: '2'
 services:
   elasticsearch:
     image: elasticsearch
+    enviroment:
+      - NODE_ENV=${NODE_ENV}
     ports:
       - "9200:9200"
       - "9300:9300"

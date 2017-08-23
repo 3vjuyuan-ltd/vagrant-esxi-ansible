@@ -3,6 +3,3 @@
 - include: webserver.yml
 - include: redis.yml
 - include: mariadb.yml
-- include: docker.yml
-- include: solr.yml
-- include: elasticsearch

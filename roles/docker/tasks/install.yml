@@ -1,0 +1,16 @@
+---
+- name: Install docker packages
+  apt:
+    name={{ item }}
+    state=present
+    update_cache=yes
+  with_items:
+    - docker.io
+
+- name: Install docker-compose packages
+  copy:
+    src: "docker-compose"
+    dest: "/usr/local/bin/"
+    owner: root
+    group: root
+    mode: 0755
