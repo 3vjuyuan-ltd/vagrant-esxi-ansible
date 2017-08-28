@@ -1,4 +1,25 @@
 ---
+- name: Create ssl directory
+  file:
+    path: /etc/nginx/ssl
+    state: directory
+    mode: 0755
+
+- name: Update repositories cache and install the dependencies for PHP
+  apt: name={{item}} state=installed update_cache=yes
+  with_items:
+    - openssl
+    - python-openssl
+
+- name: Generating ssl private key
+  openssl_privatekey:
+    path: /etc/nginx/ssl/privkey.pem
+
+- name: Generating ssl public key
+  openssl_publickey:
+    path: /etc/nginx/ssl/public.pem
+    privatekey_path: /etc/nginx/ssl/privkey.pem
+    
 - name: Copy nginx configuration file into box
   template:
     src: nginx.conf
