@@ -1,0 +1,22 @@
+---
+# tasks file for apache-maven
+- name: Unarchive maven
+  unarchive:
+    src: "http://www.apache.org/dist/maven/maven-{{ maven.major }}/{{ maven.version }}/binaries/apache-maven-{{ maven.version }}-bin.tar.gz"
+    dest: "{{maven.home_parent_directory}}"
+    copy: no
+
+- name: Remove old path configuration
+  file:
+    path: /etc/profile.d/maven.sh
+    state: absent
+
+- name: Maven path configuration
+  lineinfile:
+    dest: /etc/profile.d/maven.sh
+    line: "{{ item.line }}"
+    create: yes
+    state: present
+  with_items:
+    - { line: 'M2_HOME={{maven.home_parent_directory}}/apache-maven-{{maven.version}}' }
+    - { line: 'PATH=$PATH:$M2_HOME/bin' }
