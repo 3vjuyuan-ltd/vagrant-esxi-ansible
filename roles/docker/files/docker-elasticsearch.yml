@@ -2,8 +2,25 @@ version: '2'
 services:
   elasticsearch:
     image: elasticsearch
-    enviroment:
-      - NODE_ENV=${NODE_ENV}
     ports:
       - "9200:9200"
       - "9300:9300"
+
+  logstash:
+    image: logstash
+    volumes:
+      - /mnt/logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml
+      - /mnt/logstash/pipeline:/usr/share/logstash/pipeline
+    ports:
+      - "5000:5000"
+    links:
+      - elasticsearch
+
+  kibana:
+    image: kibana
+    volumes:
+      - /mnt/kibana/config/:/usr/share/kibana/config
+    ports:
+      - "5601:5601"
+    depends_on:
+      - elasticsearch
