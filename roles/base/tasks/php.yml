@@ -1,37 +1,55 @@
 ---
+- name: Install the dependencies package for php
+  apt: name={{item}}
+  with_items: "{{packages.dependencies}}"
+  tags:
+    - packages
+    - php
+
 - name: Check if php is installed
   command: /opt/php/bin/php -v
   register: php_installed
   failed_when: php_installed.rc < 0
   changed_when: php_installed.rc > 0
+  tags:
+    - php
 
-- name: Unzip the PHP source code file
+- name: Download PHP source code nad unzip it
   unarchive:
-    src: roles/base/files/{{php.source_file}}
+    src: "http://php.net/distributions/php-{{ php.version }}.tar.gz"
     dest: "{{ansible_env.HOME}}/packages"
+    remote_src: yes
     creates: php.source.lock
   when: php_installed.rc > 0
+  tags:
+    - php
 
 - name: Run configure script
   shell:  "{{ item }}"
   args:
-    chdir: "{{ ansible_env.HOME}}/packages/php-7.1.1/"
+    chdir: "{{ ansible_env.HOME}}/packages/php-7.1.9/"
     creates: php.install.lock
   with_items:
     - "{{ php.build_configure_command }}"
     - "{{ php.source_configure_command }}"
   when: php_installed.rc > 0
+  tags:
+    - php
 
 - name: Make and install php
   make:
-    chdir: "{{ ansible_env.HOME}}/packages/php-7.1.1/"
+    chdir: "{{ ansible_env.HOME}}/packages/php-7.1.9/"
     target: install
   when: php_installed.rc > 0
+  tags:
+    - php
 
 - name: Check if symlink for php is created in /usr/bin
   stat:
     path: /usr/bin/php
   register: php_bin
+  tags:
+    - php
 
 - name: Create the symlinks for php commands in /usr/bin
   file:
@@ -50,12 +68,16 @@
     - {src: "phar", dest: "phar"}
     - {src: "phar.phar", dest: "phar.phar"}
   when: php_bin.stat.exists == False
+  tags:
+    - php
 
 - name: Create the symlinks for php-fpm commands in /usr/bin
   file:
     src: "/opt/php/sbin/php-fpm"
     dest: "/usr/bin/php-fpm"
     state: link
+  tags:
+    - php
 
 - name: Copy php-fpm start file
   copy:
@@ -64,16 +86,23 @@
     owner: root
     group: root
     mode: 0755
+  tags:
+    - php
 
 - name: Boot start php-fpm
   command: update-rc.d php-fpm defaults 01
   args:
     chdir: /etc/init.d
+  tags:
+    - php
 
 - name: Check if composer is installed
   stat:
     path: /usr/local/bin/composer
   register: composer_bin
+  tags:
+    - php
+    - php-composer
 
 - name: Download Composer installer.
   get_url:
@@ -81,6 +110,9 @@
     dest: "{{ ansible_env.HOME}}/packages/composer-installer.php"
     mode: 0755
   when: composer_bin.stat.exists == False
+  tags:
+    - php
+    - php-composer
 
 - name: Run Composer installer.
   command: php composer-installer.php --filename=composer --install-dir=/usr/local/bin
@@ -88,8 +120,13 @@
     chdir: "{{ ansible_env.HOME}}/packages/"
     creates: composer.install.lock
   when: not composer_bin.stat.exists
+  tags:
+    - php
+    - php-composer
 
 - name: Create directory for php.ini file
   file:
     path: /opt/php/conf
     state: directory
+  tags:
+    - php

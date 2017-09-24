@@ -1,0 +1,6 @@
+---
+- name: Install the packages for image optimazation
+  apt: name={{item}}
+  with_items: "{{packages.image}}"
+  tags:
+    - packages
