@@ -14,7 +14,7 @@
   tags:
     - php
 
-- name: Download PHP source code nad unzip it
+- name: Download PHP source code and unzip it
   unarchive:
     src: "http://php.net/distributions/php-{{ php.version }}.tar.gz"
     dest: "{{ansible_env.HOME}}/packages"
@@ -27,7 +27,7 @@
 - name: Run configure script
   shell:  "{{ item }}"
   args:
-    chdir: "{{ ansible_env.HOME}}/packages/php-7.1.9/"
+    chdir: "{{ ansible_env.HOME}}/packages/php-{{ php.version }}/"
     creates: php.install.lock
   with_items:
     - "{{ php.build_configure_command }}"
@@ -38,7 +38,7 @@
 
 - name: Make and install php
   make:
-    chdir: "{{ ansible_env.HOME}}/packages/php-7.1.9/"
+    chdir: "{{ ansible_env.HOME}}/packages/php-{{ php.version }}/"
     target: install
   when: php_installed.rc > 0
   tags:
@@ -83,6 +83,17 @@
   copy:
     src: roles/base/files/php-fpm
     dest: /etc/init.d/php-fpm
+    owner: root
+    group: root
+    mode: 0755
+  tags:
+    - php
+
+- name: Copy php-fpm from php sapi source code to init.d
+  copy:
+    src: "{{ ansible_env.HOME}}/packages/php-{{ php.version }}/sapi/fpm/init.d.php-fpm"
+    dest: /etc/init.d/php-fpm
+    remote_src: yes
     owner: root
     group: root
     mode: 0755

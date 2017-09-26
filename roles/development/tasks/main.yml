@@ -1,6 +1,6 @@
 ---
-- include: xdebug.yml
-- include: webserver.yml
-- include: redis.yml
-- include: mariadb.yml
-- include: behat.yml
+- import_tasks: webserver.yml
+- import_tasks: mariadb.yml
+- import_tasks: php-conf.yml
+- import_tasks: redis.yml
+- import_tasks: behat.yml

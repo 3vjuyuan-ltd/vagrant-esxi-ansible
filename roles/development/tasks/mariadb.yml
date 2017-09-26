@@ -12,7 +12,9 @@
   when: mariadb_deb_state.rc == 1
 
 - name: Make sure mariadb service running
-  service: name=mysql state=started
+  service:
+    name: mysql
+    state: started
 
 - name: Run mysql_secure_installation
   expect:

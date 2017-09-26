@@ -1,3 +1,11 @@
 ---
-nginx_domain_name: 3vjuyuan.com
-nginx_project_name: 3vjuyuan
+nginx_server:
+  user: vagrant
+  usergroup: vagrant
+  default_config: "default.conf"
+nginx_domain_name: dev.3vjuyuan.com
+nginx_project_name: project
+
+php_conf:
+  timezone: Europe/Berlin
+  xdebug_version: 2.5.5

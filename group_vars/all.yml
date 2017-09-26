@@ -53,13 +53,11 @@ packages:
     - "pngquant"
     - "pngnq"
 
-
 nodejs:
-  version: "v8.50.0"
+  version: "v8.5.0"
 
 nginx:
   version: "1.12.1"
-  default_config: "default.conf"
 
 php:
   version: "7.1.9"
