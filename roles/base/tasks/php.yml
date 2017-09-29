@@ -79,16 +79,6 @@
   tags:
     - php
 
-- name: Copy php-fpm start file
-  copy:
-    src: roles/base/files/php-fpm
-    dest: /etc/init.d/php-fpm
-    owner: root
-    group: root
-    mode: 0755
-  tags:
-    - php
-
 - name: Copy php-fpm from php sapi source code to init.d
   copy:
     src: "{{ ansible_env.HOME}}/packages/php-{{ php.version }}/sapi/fpm/init.d.php-fpm"
