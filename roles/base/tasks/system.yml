@@ -11,17 +11,23 @@
 - name: Reconfigure packages
   command: dpkg --configure -a
 
-- name: Add node.js v8.x repository
-  shell:  "curl -sL https://deb.nodesource.com/setup_8.x | bash -"
-  register: node_source
-  failed_when: node_source.rc != 0
+- name: Update repositories cache and install basic package
+  apt:
+    name: "{{item}}"
+    update_cache: yes
+  with_items: "{{packages.basic}}"
+  tags:
+    - packages
+
+- name: Install the packages that is required by ansible
+  apt:
+    name: "{{item}}"
+  with_items: "{{packages.ansible}}"
+  tags:
+    - packages
 
 - name: Make directory in /tmp for temporary uploads files
   file:
     path: "{{ ansible_env.HOME}}/packages"
     state: directory
     mode: 0755
-
-- name: Update repositories cache and install the dependencies for PHP
-  apt: name={{item}} update_cache=yes
-  with_items: "{{system.packages}}"

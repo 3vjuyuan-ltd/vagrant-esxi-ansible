@@ -1,0 +1,13 @@
+---
+- name: Add node.js v8.x repository
+  shell:  "curl -sL https://deb.nodesource.com/setup_8.x | bash -"
+  register: node_source
+  failed_when: node_source.rc != 0
+  tags:
+    - nodejs
+
+- name: Install nodejs package
+  apt:
+    name: nodejs
+  tags:
+    - nodejs

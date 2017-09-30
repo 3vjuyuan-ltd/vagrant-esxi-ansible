@@ -1,7 +1,10 @@
 ---
 system:
+  codename: xenial
+
+packages:
   package_path: /tmp/packages
-  packages:
+  basic:
     - "make"
     - "autoconf"
     - "gcc"
@@ -12,7 +15,10 @@ system:
     - "openssl"
     - "snmp"
     - "snmpd"
+    - "pkg-config"
     - "snmp-mibs-downloader"
+    - "zip"
+  dependencies:
     - "libmcrypt-dev"
     - "libcurl4-gnutls-dev"
     - "libssl-dev"
@@ -23,11 +29,9 @@ system:
     - "libperl-dev"
     - "libtidy-dev"
     - "libxslt1-dev"
-    - "pkg-config"
     - "libsslcommon2-dev"
     - "libbz2-dev"
     - "libgmp-dev"
-    - "mariadb-server"
     - "libmysqlclient-dev"
     - "libpspell-dev"
     - "libpng-dev"
@@ -38,9 +42,10 @@ system:
     - "ldap-utils"
     - "libldap2-dev"
     - "libsnmp-dev"
-    - "nodejs"
+  ansible:
     - "python-pexpect"
     - "python-mysqldb"
+  image:
     - "graphicsmagick"
     - "libjpeg-turbo-progs"
     - "optipng"
@@ -49,18 +54,13 @@ system:
     - "pngnq"
 
 nodejs:
-  version: "v8.0.0"
+  version: "v8.5.0"
 
 nginx:
-  version: "1.10.3"
-  deb_filename: "nginx_1.10.3_amd64"
-  default_config: "default.conf"
+  version: "1.12.1"
 
 php:
-  version: "7.1.1"
-  source_file: "php-7.1.1.tar.gz"
-  deb_filename: "php7.1.1-1-xenial"
-  fpm_filename: "php-fpm_7.1-xenial"
+  version: "7.1.9"
   config_file: "php.ini"
   build_configure_command: "./buildconf --force"
   source_configure_command: >

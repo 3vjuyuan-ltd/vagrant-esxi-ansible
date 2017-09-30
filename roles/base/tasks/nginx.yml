@@ -4,15 +4,41 @@
   register: nginx_deb_state
   failed_when: nginx_deb_state.rc > 1
   changed_when: nginx_deb_state.rc == 1
+  tags:
+    - nginx
 
-- name: Copy nginx deb package the the client
-  copy:
-    src: roles/base/files/{{nginx.deb_filename}}.deb
-    dest: "{{ ansible_env.HOME}}/packages/"
-    mode: 0755
+- name: Add the signing key for nginx package repository
+  apt_key:
+    url: http://nginx.org/keys/nginx_signing.key
+    state: present
+  register: nginx_key_state
   when: nginx_deb_state.rc == 1
+  tags:
+    - nginx
 
-- name: Install nginx package with dpkg
+- name: Add the nginx repositry into source list
+  apt_repository:
+    repo: "deb http://nginx.org/packages/ubuntu/ {{ system.codename }} nginx"
+    state: present
+  register: nginx_rep_deb_stage
+  when: nginx_key_state|succeeded
+  tags:
+    - nginx
+
+- name: Add the nginx source repositry into source list
+  apt_repository:
+    repo: "deb-src http://nginx.org/packages/ubuntu/ {{ system.codename }} nginx"
+    state: present
+  register: nginx_rep_debsrc_stage
+  when: nginx_key_state|succeeded
+  tags:
+    - nginx
+
+- name: Install nginx package
   apt:
-    deb: "{{ ansible_env.HOME}}/packages/{{nginx.deb_filename}}.deb"
-  when: nginx_deb_state.rc == 1
+    name: nginx
+    state: latest
+    update_cache: yes
+  when: nginx_deb_state.rc == 0 or (nginx_rep_debsrc_stage|succeeded and nginx_rep_deb_stage|succeeded)
+  tags:
+    - nginx
