@@ -1,24 +1,14 @@
 ---
+- name: Prepare the enviorment of remote host for ansible
+  hoats: all
+  gather_factes: False
+  pre_tasks:
+    - name: Install python for Ansible
+      raw: test -e /usr/bin/python || (apt -y update && apt install -y python-simplejson)
+      changed_when: False
+
 - name: Set up the development system by vagrant ansible provision
   hosts: all
   roles:
     - base
     - development
-
-#- name: Set up the CI/demo system
-#  hosts: demo
-#  roles:
-#    - base
-#    - demo
-#
-#- name: Set up the staging system
-#  hosts: staging
-#  roles:
-#    - base
-#    - staging
-#
-#- name: Set up the production system
-#  hosts: production
-#  roles:
-#    - base
-#    - production
