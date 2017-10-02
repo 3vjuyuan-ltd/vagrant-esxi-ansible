@@ -3,4 +3,4 @@
 - import_tasks: mariadb.yml
 - import_tasks: php-conf.yml
 - import_tasks: redis.yml
-- import_tasks: behat.yml
+#- import_tasks: behat.yml
