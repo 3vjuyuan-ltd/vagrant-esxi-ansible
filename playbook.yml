@@ -1,7 +1,7 @@
 ---
 - name: Prepare the enviorment of remote host for ansible
-  hoats: all
-  gather_factes: False
+  hosts: all
+  gather_facts: False
   pre_tasks:
     - name: Install python for Ansible
       raw: test -e /usr/bin/python || (apt -y update && apt install -y python-simplejson)
